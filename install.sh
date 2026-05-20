@@ -104,6 +104,18 @@ else
     log_success "Aliases appended to $BASHRC! Relocate shell or run: source ~/.bashrc"
 fi
 
+# STEP 8: Automatically fetch, patch, and build Antigravity core
+log_info "Step 8: Automatically triggering first-time native compilation of Antigravity core..."
+if [ -x "$HOME/bin/agy-termux" ]; then
+    if "$HOME/bin/agy-termux" --update-core; then
+        log_success "Antigravity core compiled & patched successfully!"
+    else
+        log_warn "Auto-compilation had warnings. Run 'agy --update-core' to re-verify configuration."
+    fi
+else
+    log_err "Manager binary not executable or missing at $HOME/bin/agy-termux."
+fi
+
 echo -e "\n${GREEN}${BOLD}==========================================================${NC}"
 echo -e "${GREEN}${BOLD}agy-termux has been compiled & installed successfully!${NC}"
 echo -e "You can run it natively via: ${BOLD}agy${NC} or ${BOLD}agy-termux${NC}"
